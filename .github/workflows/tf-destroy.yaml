@@ -9,6 +9,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     steps:
       - name: Checkout repo

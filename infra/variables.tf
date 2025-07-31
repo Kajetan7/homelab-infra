@@ -41,3 +41,9 @@ variable "www_domain" {
   type        = string
   default     = "www.mroske.pro"
 }
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+  sensitive   = true
+}
