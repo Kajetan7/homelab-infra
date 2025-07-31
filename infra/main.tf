@@ -37,4 +37,3 @@ resource "azurerm_linux_web_app" "webapp" {
     WEBSITES_PORT = "8000"
   }
 }
-
