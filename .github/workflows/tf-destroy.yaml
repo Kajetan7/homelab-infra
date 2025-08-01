@@ -10,6 +10,8 @@ jobs:
       id-token: write
       contents: read
     env:
+      TF_VAR_docker_hub_username: ${{ secrets.DOCKER_HUB_USERNAME }}
+      TF_VAR_docker_hub_token: ${{ secrets.DOCKER_HUB_TOKEN }}
       TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     steps:
