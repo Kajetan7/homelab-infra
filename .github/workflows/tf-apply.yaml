@@ -31,9 +31,6 @@ jobs:
       run: terraform init
       working-directory: infra
 
-    - name: Set image_tag env (use git commit SHA)
-      run: echo "TF_VAR_image_tag=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
     - name: Terraform Plan
       run: terraform plan
       working-directory: infra
@@ -41,3 +38,12 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve
       working-directory: infra
+
+    - name: Restart Azure Web App
+      run: |
+        az webapp restart \
+          --name "${{ env.AZURE_WEBAPP_NAME }}" \
+          --resource-group "${{ env.AZURE_RESOURCE_GROUP }}"
+      env:
+        AZURE_WEBAPP_NAME: ${{ env.TF_VAR_project_name }}-webapp
+        AZURE_RESOURCE_GROUP: ${{ env.TF_VAR_resource_group_name }}
