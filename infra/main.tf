@@ -22,18 +22,22 @@ resource "azurerm_linux_web_app" "webapp" {
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_app_service_plan.asp.id
 
+
   site_config {
     application_stack {
-      docker_image_name        = var.container_image
+      docker_image_name        = "${var.container_image}:${var.image_tag}"
       docker_registry_url      = "https://index.docker.io"
       docker_registry_username = var.docker_hub_username
       docker_registry_password = var.docker_hub_token
     }
-
     always_on = true
   }
 
   app_settings = {
     WEBSITES_PORT = "8000"
+  }
+
+  triggers = {
+    image_tag = var.image_tag
   }
 }
