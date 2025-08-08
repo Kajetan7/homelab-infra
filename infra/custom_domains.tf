@@ -11,10 +11,20 @@ resource "azurerm_app_service_custom_hostname_binding" "www_domain" {
 
 resource "azurerm_app_service_managed_certificate" "cert_root" {
   custom_hostname_binding_id = azurerm_app_service_custom_hostname_binding.root_domain.id
+
+  timeouts {
+    create = "10m"
+    delete = "10m"
+  }
 }
 
 resource "azurerm_app_service_managed_certificate" "cert_www" {
   custom_hostname_binding_id = azurerm_app_service_custom_hostname_binding.www_domain.id
+
+  timeouts {
+    create = "10m"
+    delete = "10m"
+  }
 }
 
 resource "azurerm_app_service_certificate_binding" "binding_root" {
