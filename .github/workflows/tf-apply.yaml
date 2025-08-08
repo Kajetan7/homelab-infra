@@ -38,12 +38,3 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve
       working-directory: infra
-
-    - name: Restart Azure Web App
-      run: |
-        az webapp restart \
-          --name "${{ env.AZURE_WEBAPP_NAME }}" \
-          --resource-group "${{ env.AZURE_RESOURCE_GROUP }}"
-      env:
-        AZURE_WEBAPP_NAME: ${{ env.TF_VAR_project_name }}-webapp
-        AZURE_RESOURCE_GROUP: ${{ env.TF_VAR_resource_group_name }}
