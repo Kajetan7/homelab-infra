@@ -31,6 +31,9 @@ jobs:
       run: terraform init
       working-directory: infra
 
+    - name: Set image_tag env (use git commit SHA)
+      run: echo "TF_VAR_image_tag=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
     - name: Terraform Plan
       run: terraform plan
       working-directory: infra
