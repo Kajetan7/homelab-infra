@@ -1,4 +1,4 @@
-# homelab-az
+# homelab-infra
 
 
 My super simple cv-page setup for Azure – all infra as code (Terraform) and automated with github workflows.
