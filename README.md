@@ -14,8 +14,15 @@ cv-page/
   outputs.tf         
   provider.tf       
   custom_domains.tf 
+k3s-lab-vm/
+  main.tf
+  variabes.tf
+  outputs.tf
+  provider.tf
+  cloud-init.yaml
 .github/
   workflows/
     cv-page-apply.yaml  
-    cv-page-destroy.yaml  
+    cv-page-destroy.yaml
+    k3s-vm.yaml
 ```
