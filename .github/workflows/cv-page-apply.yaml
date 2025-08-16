@@ -1,4 +1,4 @@
-name: Terraform Manual Apply
+name: CV Page - Terraform Manual Apply
 
 on:
   workflow_dispatch:

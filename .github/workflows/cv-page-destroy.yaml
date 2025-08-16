@@ -1,4 +1,4 @@
-name: Terraform Manual Destroy
+name: CV Page - Terraform Manual Destroy
 
 on:
   workflow_dispatch:

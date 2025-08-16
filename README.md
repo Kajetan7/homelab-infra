@@ -16,6 +16,6 @@ cv-page/
   custom_domains.tf 
 .github/
   workflows/
-    tf-apply.yaml  
-    tf-destroy.yaml  
+    cv-page-apply.yaml  
+    cv-page-destroy.yaml  
 ```
