@@ -1,0 +1,75 @@
+name: Deploy k3s VM
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "apply or destroy"
+        required: true
+        default: "apply"
+        type: choice
+        options: [apply, destroy]
+      allowed_ssh_cidr:
+        description: "CIDR allowed for SSH (e.g. 1.2.3.4/32)"
+        required: true
+        default: "0.0.0.0/0"
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: k3s-lab-vm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        if: inputs.action == 'apply'
+        env:
+          TF_VAR_allowed_ssh_cidr: ${{ inputs.allowed_ssh_cidr }}
+          TF_VAR_admin_ssh_public_key: ${{ secrets.ADMIN_SSH_PUBLIC_KEY }}
+        run: |
+          terraform plan -out=tfplan \
+            -var "admin_username=${{ secrets.ADMIN_USERNAME }}" \
+            -var "project=homelab-k3s"
+
+      - name: Terraform Apply
+        if: inputs.action == 'apply'
+        env:
+          TF_VAR_allowed_ssh_cidr: ${{ inputs.allowed_ssh_cidr }}
+          TF_VAR_admin_ssh_public_key: ${{ secrets.ADMIN_SSH_PUBLIC_KEY }}
+        run: |
+          terraform apply -auto-approve tfplan
+          echo "PUBLIC_IP=$(terraform output -raw public_ip)" >> $GITHUB_ENV
+
+      - name: Show SSH command
+        if: inputs.action == 'apply'
+        run: |
+          echo "Use SSH: ssh ${{ secrets.ADMIN_USERNAME }}@$PUBLIC_IP"
+
+      - name: Terraform Destroy
+        if: inputs.action == 'destroy'
+        env:
+          TF_VAR_allowed_ssh_cidr: ${{ inputs.allowed_ssh_cidr }}
+          TF_VAR_admin_ssh_public_key: ${{ secrets.ADMIN_SSH_PUBLIC_KEY }}
+        run: |
+          terraform destroy -auto-approve -var "admin_username=${{ secrets.ADMIN_USERNAME }}" -var "project=homelab-k3s"
