@@ -28,12 +28,12 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: infra
+        working-directory: cv-page
 
       - name: Terraform Plan Destroy
         run: terraform plan -destroy
-        working-directory: infra
+        working-directory: cv-page
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
-        working-directory: infra
+        working-directory: cv-page

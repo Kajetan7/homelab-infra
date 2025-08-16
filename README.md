@@ -8,7 +8,7 @@ Used for hosting [mroske.pro](https://mroske.pro) and for cloud/infra experiment
 ## Folder structure
 
 ```
-infra/
+cv-page/
   main.tf           
   variables.tf       
   outputs.tf         

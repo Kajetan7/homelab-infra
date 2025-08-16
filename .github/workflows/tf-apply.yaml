@@ -29,12 +29,12 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
-      working-directory: infra
+      working-directory: cv-page
 
     - name: Terraform Plan
       run: terraform plan
-      working-directory: infra
+      working-directory: cv-page
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
-      working-directory: infra
+      working-directory: cv-page
