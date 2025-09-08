@@ -16,4 +16,11 @@ runcmd:
     echo 'alias k=kubectl' >> /root/.bashrc
     echo 'complete -o default -F __start_kubectl k' >> /root/.bashrc
   - |
+    echo "Initializing ArgoCD..."
+    kubectl create namespace argocd || true
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    kubectl rollout status deployment/argocd-server -n argocd --timeout=180s
+    git clone https://github.com/Kajetan7/homelab-infra.git /root/homelab-infra
+    kubectl apply -n argocd -f /root/homelab-infra/k3s-lab-vm/bootstrap/argocd
+  - |
     echo "Done. You can now SSH and run: sudo su - ; kubectl get nodes"
