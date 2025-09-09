@@ -18,7 +18,7 @@ runcmd:
   - |
     echo "Initializing ArgoCD..."
     kubectl create namespace argocd || true
-    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.1.4/manifests/install.yaml
     kubectl rollout status deployment/argocd-server -n argocd --timeout=180s
     git clone https://github.com/Kajetan7/homelab-infra.git /root/homelab-infra
     kubectl apply -n argocd -f /root/homelab-infra/k3s-lab-vm/bootstrap/argocd
