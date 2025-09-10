@@ -29,7 +29,7 @@ variable "admin_ssh_public_key" {
 variable "vm_size" {
   description = "Azure VM size"
   type        = string
-  default     = "Standard_B2s"
+  default     = "Standard_B2ms"
 }
 
 variable "allowed_ssh_cidr" {
